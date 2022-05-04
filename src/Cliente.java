@@ -28,7 +28,7 @@ public class Cliente {
                 case 3:
                     if (listaContatos.isEmpty()) {
                         System.out.println("Você deve adicionar um contato primeiro!");
-                        System.out.print("Confirme para continuar");
+                        System.out.print("Confirme para voltar ao menu ");
                         scn.nextLine();
                         limpaTerminal();
                     } else {
@@ -64,7 +64,7 @@ public class Cliente {
             System.out.println("Lista Vazia!");
         }
 
-        System.out.print("Confirme para voltar ao menu");
+        System.out.print("\nConfirme para voltar ao menu ");
         scn.nextLine();
         limpaTerminal();
     }
@@ -89,7 +89,7 @@ public class Cliente {
             System.out.println("Telefone: " + telefone);
             System.out.println("Email: " + email);
             System.out.println("--------------------------");
-            System.out.print("Salvar Contato? (S/N)");
+            System.out.print("Salvar Contato? (S/N) ");
             resp = scn.nextLine();
             
             if (resp.toUpperCase().equals("S")) {
@@ -126,20 +126,29 @@ public class Cliente {
                 case 1:
                     contato = getContato();
                     if (contato != null) {
-                        editarId(contato);
+                        limpaTerminal();
+                        editarDados(contato);
                     }
+
+                    opcao = 4;
                     break;
                 case 2:
                     contato = getContato();
                     if (contato != null) {
+                        limpaTerminal();
                         voltarVersao(contato);
                     }
+
+                    opcao = 4;
                     break;
                 case 3:
                     contato = getContato();
                     if (contato != null) {
+                        limpaTerminal();
                         excluirContato(contato);
                     }
+
+                    opcao = 4;
                     break;
                 case 4:
                     limpaTerminal();
@@ -154,16 +163,187 @@ public class Cliente {
             
     }
 
-    public static void editarId(Contato contato) {
+    public static void editarDados(Contato contato) {
+        boolean sair = false;
+        boolean respValida = false;
+        int opcao;
+        String resp;
 
+        do { 
+            System.out.println("-------- Editando Contato: " + contato.getId() + " --------");
+            System.out.println("Nome: " + contato.getNome());
+            System.out.println("Telefone: " + contato.getTelefone());
+            System.out.println("Email: " + contato.getEmail());
+            System.out.println();
+            System.out.println("-------- O que você deseja alterar? --------");
+            System.out.println("| 1 - Nome                                 |");
+            System.out.println("| 2 - Telefone                             |");
+            System.out.println("| 3 - Email                                |");
+            System.out.println("| 4 - Cancelar                             |");
+            System.out.println("--------------------------------------------");
+            System.out.print("Ação: ");
+            opcao = Integer.parseInt(scn.nextLine());
+
+            switch (opcao) {
+                case 1:
+                    System.out.print("Insira o novo nome do contato: ");
+                    contato.setNome(scn.nextLine());
+
+                    System.out.println("-------- Contato: " + contato.getId() + " --------");
+                    System.out.println("Nome: " + contato.getNome());
+                    System.out.println("Telefone: " + contato.getTelefone());
+                    System.out.println("Email: " + contato.getEmail());
+                    System.out.println();
+                    
+                    do {
+                        System.out.print("Salvar Alterações? (S/N) ");
+                        resp = scn.nextLine();
+
+                        if (resp.toUpperCase().equals("S")) {
+                            System.out.println("Salvando...");
+                            respValida = true;
+                        } else if (resp.toUpperCase().equals("N")) {
+                            System.out.println("Ok, Cancelando....");
+                            contato.desfazer();
+                            respValida = true;
+                        } else {
+                            System.out.println("Resposta Invalida!");
+                        }
+
+                    } while (!respValida);
+
+                    sair = true;
+                    break;
+                case 2:
+                    System.out.print("Insira o novo telefone do contato: ");
+                    contato.setTelefone(scn.nextLine());
+
+                    System.out.println("-------- Contato: " + contato.getId() + " --------");
+                    System.out.println("Nome: " + contato.getNome());
+                    System.out.println("Telefone: " + contato.getTelefone());
+                    System.out.println("Email: " + contato.getEmail());
+                    System.out.println();
+                    
+                    do {
+                        System.out.print("Salvar Alterações? (S/N) ");
+                        resp = scn.nextLine();
+
+                        if (resp.toUpperCase().equals("S")) {
+                            System.out.println("Salvando...");
+                            respValida = true;
+                        } else if (resp.toUpperCase().equals("N")) {
+                            System.out.println("Ok, Cancelando....");
+                            contato.desfazer();
+                            respValida = true;
+                        } else {
+                            System.out.println("Resposta Invalida!");
+                        }
+
+                    } while (!respValida);
+
+                    sair = true;
+                    break;
+                case 3:
+                    System.out.print("Insira o novo email do contato: ");
+                    contato.setEmail(scn.nextLine());
+
+                    System.out.println("-------- Contato: " + contato.getId() + " --------");
+                    System.out.println("Nome: " + contato.getNome());
+                    System.out.println("Telefone: " + contato.getTelefone());
+                    System.out.println("Email: " + contato.getEmail());
+                    System.out.println();
+                    
+                    do {
+                        System.out.print("Salvar Alterações? (S/N) ");
+                        resp = scn.nextLine();
+
+                        if (resp.toUpperCase().equals("S")) {
+                            System.out.println("Salvando...");
+                            respValida = true;
+                        } else if (resp.toUpperCase().equals("N")) {
+                            System.out.println("Ok, Cancelando....");
+                            contato.desfazer();
+                            respValida = true;
+                        } else {
+                            System.out.println("Resposta Invalida!");
+                        }
+
+                    } while (!respValida);
+
+                    sair = true;
+                    break;
+                case 4:
+                    sair = true;
+                    break;
+                default:
+                    System.out.println("Opção Invalida!");
+                    break;
+            }
+
+        } while (!sair);
+
+        limpaTerminal();
     }
 
     public static void voltarVersao(Contato contato) {
-    
+        boolean respValida = false;
+        String resp;
+
+        System.out.println("-------- Editando Contato: " + contato.getId() + " --------");
+        System.out.println("Nome: " + contato.getNome());
+        System.out.println("Telefone: " + contato.getTelefone());
+        System.out.println("Email: " + contato.getEmail());
+        System.out.println();
+
+        do {
+            System.out.print("Deseja Voltar uma Versão Deste Contato? (S/N) ");
+            resp = scn.nextLine();
+
+            if (resp.toUpperCase().equals("S")) {
+                System.out.println("Voltando Versão...");
+                contato.desfazer();
+                respValida = true;
+            } else if (resp.toUpperCase().equals("N")) {
+                System.out.println("Ok, Voltando ao Menu....");
+                respValida = true;
+            } else {
+                System.out.println("Resposta Invalida!");
+            }
+
+        } while (!respValida);
+
     }
 
     public static void excluirContato(Contato contato) {
+        boolean respValida = false;
+        String resp;
+        
+        System.out.println("-------- Excluindo Contato: " + contato.getId() + " --------");
+        System.out.println("Nome: " + contato.getNome());
+        System.out.println("Telefone: " + contato.getTelefone());
+        System.out.println("Email: " + contato.getEmail());
+        System.out.println();
 
+        do {
+            System.out.print("Deseja Excluir Este Contato? (S/N) ");
+            resp = scn.nextLine();
+
+            if (resp.toUpperCase().equals("S")) {
+                for (int i = 0; i < listaContatos.size(); i++) {
+                    if (listaContatos.get(i).getId() == contato.getId()) {
+                        listaContatos.remove(i);
+                        break;
+                    }
+                }
+                respValida = true;
+            } else if (resp.toUpperCase().equals("N")) {
+                System.out.println("Ok, Voltando ao Menu....");
+                respValida = true;
+            } else {
+                System.out.println("Resposta Invalida!");
+            }
+
+        } while (!respValida);
     }
 
     public static Contato getContato() {
@@ -181,7 +361,7 @@ public class Cliente {
                 }
             }
             
-            System.out.print("Id não encontrado, tentar novamente? (S/N)");
+            System.out.print("Id não encontrado, tentar novamente? (S/N) ");
             resp = scn.nextLine();
 
             if (resp.toUpperCase().equals("N")) {
