@@ -6,7 +6,7 @@ import Pilha.PilhaVaziaException;
 public class Cliente {
     static ArrayList<Contato> listaContatos = new ArrayList<>(); 
     static Scanner scn = new Scanner(System.in);
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         int opcao = 0;
 
         limpaTerminal();
@@ -61,12 +61,12 @@ public class Cliente {
         System.out.println("-------- 1 - Visualizar lista --------");
 
         if (!listaContatos.isEmpty()) {
-            listaContatos.forEach(contato -> System.out.println(contato));
+            listaContatos.forEach(contato -> System.out.println(contato + System.lineSeparator()));
         } else {
-            System.out.println("Lista Vazia!");
+            System.out.println("Lista Vazia!\n");
         }
 
-        System.out.print("\nConfirme para voltar ao menu ");
+        System.out.print("Confirme para voltar ao menu ");
         scn.nextLine();
         limpaTerminal();
     }
