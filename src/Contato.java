@@ -1,4 +1,6 @@
+import Pilha.PilhaCheiaException;
 import Pilha.PilhaEstatica;
+import Pilha.PilhaVaziaException;
 
 public class Contato {
     private static int proximoId = 0;
@@ -9,13 +11,9 @@ public class Contato {
     private PilhaEstatica pilhaBackup;
 
     
-    private void salvaBackup() {
+    private void salvaBackup() throws PilhaCheiaException {
         Contato bkp = new Contato(this.id, this.nome, this.telefone, this.email);
-        try {
-            this.pilhaBackup.push(bkp);
-        } catch (Exception e) {
-           System.out.println(e.getMessage());
-        }
+        this.pilhaBackup.push(bkp);
     }
 
     public Contato(String nome, String telefone, String email) {
@@ -34,16 +32,12 @@ public class Contato {
         this.email = email;
     }
 
-    public void desfazer() {
+    public void desfazer() throws PilhaVaziaException {
         Contato backup;
-        try {
-            backup = (Contato) this.pilhaBackup.pop();
-            this.nome = backup.getNome();
-            this.telefone = backup.getTelefone();
-            this.email = backup.getEmail();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        backup = (Contato) this.pilhaBackup.pop();
+        this.nome = backup.getNome();
+        this.telefone = backup.getTelefone();
+        this.email = backup.getEmail();
     }
 
     @Override
@@ -56,7 +50,11 @@ public class Contato {
     }
     
     public void setNome(String nome) {
-        this.salvaBackup();
+        try {
+            this.salvaBackup();
+        } catch (PilhaCheiaException e) {
+            System.out.println("Não foi possivel salvar um backup. Motivo: Pilha Cheia");
+        }
         this.nome = nome;
     }
 
@@ -65,7 +63,11 @@ public class Contato {
     }
 
     public void setTelefone(String telefone) {
-        this.salvaBackup();
+        try {
+            this.salvaBackup();
+        } catch (PilhaCheiaException e) {
+            System.out.println("Não foi possivel salvar um backup. Motivo: Pilha Cheia");
+        }
         this.telefone = telefone;
     }
 
@@ -74,7 +76,11 @@ public class Contato {
     }
     
     public void setEmail(String email) {
-        this.salvaBackup();
+        try {
+            this.salvaBackup();
+        } catch (PilhaCheiaException e) {
+            System.out.println("Não foi possivel salvar um backup. Motivo: Pilha Cheia");
+        }
         this.email = email;
     }
     

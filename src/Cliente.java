@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import Pilha.PilhaVaziaException;
+
 public class Cliente {
     static ArrayList<Contato> listaContatos = new ArrayList<>(); 
     static Scanner scn = new Scanner(System.in);
@@ -114,7 +116,7 @@ public class Cliente {
 
         do {
             System.out.println("-------- 3 - Editar Contato --------");
-            System.out.println("| 1 - Editar Contato               |");
+            System.out.println("| 1 - Editar Dados do Contato      |");
             System.out.println("| 2 - Voltar Versão                |");
             System.out.println("| 3 - Excluir Contato              |");
             System.out.println("| 4 - Voltar ao Menu               |");
@@ -167,7 +169,7 @@ public class Cliente {
         boolean sair = false;
         boolean respValida = false;
         int opcao;
-        String resp;
+        String resp, novoDado;
 
         do { 
             System.out.println("-------- Editando Contato: " + contato.getId() + " --------");
@@ -187,10 +189,10 @@ public class Cliente {
             switch (opcao) {
                 case 1:
                     System.out.print("Insira o novo nome do contato: ");
-                    contato.setNome(scn.nextLine());
+                    novoDado = scn.nextLine();
 
                     System.out.println("-------- Contato: " + contato.getId() + " --------");
-                    System.out.println("Nome: " + contato.getNome());
+                    System.out.println("Nome: " + novoDado);
                     System.out.println("Telefone: " + contato.getTelefone());
                     System.out.println("Email: " + contato.getEmail());
                     System.out.println();
@@ -201,10 +203,10 @@ public class Cliente {
 
                         if (resp.toUpperCase().equals("S")) {
                             System.out.println("Salvando...");
+                            contato.setNome(novoDado);
                             respValida = true;
                         } else if (resp.toUpperCase().equals("N")) {
                             System.out.println("Ok, Cancelando....");
-                            contato.desfazer();
                             respValida = true;
                         } else {
                             System.out.println("Resposta Invalida!");
@@ -216,24 +218,24 @@ public class Cliente {
                     break;
                 case 2:
                     System.out.print("Insira o novo telefone do contato: ");
-                    contato.setTelefone(scn.nextLine());
-
+                    novoDado = scn.nextLine();
+                    
                     System.out.println("-------- Contato: " + contato.getId() + " --------");
                     System.out.println("Nome: " + contato.getNome());
-                    System.out.println("Telefone: " + contato.getTelefone());
+                    System.out.println("Telefone: " + novoDado);
                     System.out.println("Email: " + contato.getEmail());
                     System.out.println();
                     
                     do {
                         System.out.print("Salvar Alterações? (S/N) ");
                         resp = scn.nextLine();
-
+                        
                         if (resp.toUpperCase().equals("S")) {
                             System.out.println("Salvando...");
+                            contato.setTelefone(novoDado);
                             respValida = true;
                         } else if (resp.toUpperCase().equals("N")) {
                             System.out.println("Ok, Cancelando....");
-                            contato.desfazer();
                             respValida = true;
                         } else {
                             System.out.println("Resposta Invalida!");
@@ -245,24 +247,24 @@ public class Cliente {
                     break;
                 case 3:
                     System.out.print("Insira o novo email do contato: ");
-                    contato.setEmail(scn.nextLine());
-
+                    novoDado = scn.nextLine();
+                    
                     System.out.println("-------- Contato: " + contato.getId() + " --------");
                     System.out.println("Nome: " + contato.getNome());
                     System.out.println("Telefone: " + contato.getTelefone());
-                    System.out.println("Email: " + contato.getEmail());
+                    System.out.println("Email: " + novoDado);
                     System.out.println();
                     
                     do {
                         System.out.print("Salvar Alterações? (S/N) ");
                         resp = scn.nextLine();
-
+                        
                         if (resp.toUpperCase().equals("S")) {
                             System.out.println("Salvando...");
+                            contato.setEmail(novoDado);
                             respValida = true;
                         } else if (resp.toUpperCase().equals("N")) {
                             System.out.println("Ok, Cancelando....");
-                            contato.desfazer();
                             respValida = true;
                         } else {
                             System.out.println("Resposta Invalida!");
@@ -301,7 +303,11 @@ public class Cliente {
 
             if (resp.toUpperCase().equals("S")) {
                 System.out.println("Voltando Versão...");
-                contato.desfazer();
+                try {
+                    contato.desfazer();
+                } catch (PilhaVaziaException e) {
+                    System.out.println("Não há versões para voltar!");
+                }
                 respValida = true;
             } else if (resp.toUpperCase().equals("N")) {
                 System.out.println("Ok, Voltando ao Menu....");
